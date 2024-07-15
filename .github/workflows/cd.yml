@@ -8,8 +8,8 @@ on:
       - completed
 
 
-  deploy:
-    needs: build
+ deploy:
+    needs: CI build
     runs-on: ubuntu-latest
 
     steps:
