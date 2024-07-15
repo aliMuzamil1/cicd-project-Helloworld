@@ -1,6 +1,6 @@
 # This Workflow will wait for CI workflow and container image to be uploaded to Dockerhub and then deploy jave app to AWS EC2 instance using a Docker container. 
 
-# Only trigger, when the build workflow succeeded
+# Only trigges when the build workflow succeeded
 on:
   workflow_run:
     workflows: ["CI build"]
