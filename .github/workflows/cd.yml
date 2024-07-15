@@ -1,5 +1,5 @@
-# This Workflow will wait for CI workflow and container image to be uploaded to Dockerhub and then deploy java app to AWS EC2 instance. 
-
+#This Workflow will wait for CI workflow and container image to be uploaded to Dockerhub and then deploy java app to AWS EC2 instance. 
+name: CD Deploy
 on:
   workflow_run:
     workflows: ["CI build"]
