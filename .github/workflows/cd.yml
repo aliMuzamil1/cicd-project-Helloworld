@@ -1,0 +1,31 @@
+# This Workflow will wait for CI workflow and container image to be uploaded to Dockerhub and then deploy jave app to AWS EC2 instance using a Docker container. 
+
+# Only trigger, when the build workflow succeeded
+on:
+  workflow_run:
+    workflows: ["CI build"]
+    types:
+      - completed
+
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+
+    - name: Deploy to EC2
+      run: |
+        ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          docker pull raalex8601/cicd:latest
+          docker stop helloworld-cicd || true
+          docker rm helloworld-cicd || true
+          docker run -d --name helloworld-cicd -p 80:8080 raalex8601/helloworld-cicd:latest
+        EOF      
