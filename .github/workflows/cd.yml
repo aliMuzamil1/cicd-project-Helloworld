@@ -1,13 +1,6 @@
 name: CD Deploy
-on:
-  workflow_run:
-    workflows: ["CI build"]
-    types:
-      - completed
-
 
  deploy:
-    needs: CI build
     runs-on: ubuntu-latest
 
     steps:
